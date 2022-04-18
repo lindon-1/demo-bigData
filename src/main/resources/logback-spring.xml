@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+    <!-- 定义参数 -->
+    <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n" />
+    <!-- 控制台打印设置 -->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- logstash 设置 -->
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <param name="Encoding" value="UTF-8"/>
+        <!-- logstash 服务器 ip -->
+        <remoteHost>192.168.37.128</remoteHost>
+        <!-- logstash tcp 端口-->
+        <port>4569</port>
+        <!-- <filter class="com.program.interceptor.ELKFilter"/>-->//引入过滤类
+        <!-- encoder is required -->
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" >
+            <customFields>{"appname":"ceshi"}</customFields> // 索引名
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="logstash"/>
+    </root>
+</configuration>

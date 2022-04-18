@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.PersonMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.entity.Person">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="address_type" jdbcType="VARCHAR" property="addressType" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="file_type" jdbcType="VARCHAR" property="fileType" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, nick_name, address, age, type, address_type, location, file_type, create_time, 
+    update_time
+  </sql>
+
+  <select id="findOpt" resultMap="BaseResultMap">
+    select p.* from
+            (select id from person where address like '地址19%' limit #{index}, #{limit}) a
+                    left  join person p on a.id = p.id
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from person
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from person
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.entity.Person">
+    insert into person (id, name, nick_name, 
+      address, age, type, 
+      address_type, location, file_type, 
+      create_time, update_time)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, 
+      #{addressType,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, #{fileType,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.entity.Person">
+    insert into person
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="addressType != null">
+        address_type,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="fileType != null">
+        file_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="addressType != null">
+        #{addressType,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null">
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.Person">
+    update person
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="addressType != null">
+        address_type = #{addressType,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null">
+        file_type = #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.Person">
+    update person
+    set name = #{name,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      address_type = #{addressType,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      file_type = #{fileType,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <insert id="batchSave">
+    insert into person_202204 (name, nick_name,
+                        address, age, type,
+                        address_type, location, file_type) values
+    <foreach collection="peoples" item="person" separator=",">
+      (#{person.name},#{person.nickName},#{person.address}, #{person.age}, #{person.type}
+      ,#{person.addressType}, #{person.location}, #{person.fileType})
+    </foreach>
+
+  </insert>
+
+  <select id="find" resultMap="BaseResultMap">
+      select * from person where address like '地址19%' limit #{index}, #{limit};
+  </select>
+
+
+
+  <insert id="performInsert">
+    insert into performance(name, score, time) values
+    <foreach collection="list" item="per" separator=",">
+      (#{per.name},#{per.score},#{per.time})
+    </foreach>
+  </insert>
+</mapper>
